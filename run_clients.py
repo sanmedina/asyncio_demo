@@ -2,7 +2,6 @@
 import asyncio
 from collections import Counter
 import time
-import traceback
 
 from argparse import ArgumentParser, Namespace
 import httpx
@@ -15,26 +14,25 @@ def _parse_args() -> Namespace:
     return parser.parse_args()
 
 
-async def _make_request(port: int) -> bool:
+async def _make_request(id_: int, port: int) -> bool:
+    start = time.time()
     try:
         async with httpx.AsyncClient() as client:
             url = f"http://localhost:{port}/resource"
-            print(f"Requesting {url}...")
-            start = time.time()
+            print(f"#{id_} Requesting {url}...")
             r = await client.get(url, timeout=7.0)
-            end = time.time()
-            request_time = end - start
-            print(f"Response received:{r.json()}")
-            print(f"Request time:{request_time:.2f}")
+            print(f"#{id_} Response received:{r.json()}")
             return True
-    except Exception:
-        traceback.print_exc()
-        traceback.print_stack()
+    except Exception as ex:
+        print(f"#{id_}", type(ex), str(ex))
         return False
+    finally:
+        request_time = time.time() - start
+        print(f"#{id_} Request time:{request_time:.2f}")
 
 
 async def _run_clients(port: int, num_clients: int) -> None:
-    clients = [_make_request(port) for _ in range(num_clients)]
+    clients = [_make_request(id_, port) for id_ in range(num_clients)]
     results = await asyncio.gather(*clients)
     counter = Counter(results)
     print(f"Successful:{counter[True]} Failed:{counter[False]}")

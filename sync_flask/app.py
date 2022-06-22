@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 
 def get_resource() -> dict:
-    r = httpx.get("http://localhost:8000/blocking-resource", timeout=7.0)
+    r = httpx.get("http://localhost:8000/blocking-resource", timeout=10.0)
     return r.json()
 
 

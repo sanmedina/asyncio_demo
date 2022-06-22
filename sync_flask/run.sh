@@ -1,7 +1,7 @@
 #!/bin/bash
-if [[ -n $2 ]]; then
+if [[ -n $1 ]]; then
   echo "set"
-  num_workers=$2
+  num_workers=$1
 else
   echo "not set"
   num_workers=4

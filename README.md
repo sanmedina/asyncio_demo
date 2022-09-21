@@ -2,7 +2,16 @@ asyncio Demo
 =====
 
 A small demo to compare the behavior of a synchronous application with an
-asynchrounous one. There are four components:
+asynchrounous one.
+
+# Basic Concepts
+
+The `basics/` directory has some scripts to show an overview on how to work
+with asynchronism in Python.
+
+# Web App Demo
+
+There are four components:
 
 - `blocking_resource`: Represents a blocking resource. It is a FastAPI
   resource that has service called `/blocking-resource`. That service 

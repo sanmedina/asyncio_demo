@@ -55,3 +55,9 @@ Finally, run `run_clients.py` against the desire application.
 (venv) $ ./run_clients.py 8001 -n 10
 ```
 
+# References
+
+- [Official docs](https://docs.python.org/3/library/asyncio.html)
+- [asyncio playlist](https://www.youtube.com/playlist?list=PLhNSoGM2ik6SIkVGXWBwerucXjgP1rHmB)
+- [Node.js success case](https://hackernoon.com/how-netflix-and-paypal-did-product-transformation-using-node-js-22074e13caad)
+- [FastAPI – The Good, the Bad and the Ugly](https://www.infolytx.com/fast-api-gbu/)

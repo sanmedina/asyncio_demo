@@ -78,3 +78,59 @@ time python m06_async_multiple.py
 
 Ejemplo `m07...` para mostrar sintaxis de `async with`.
 
+# Web App Demo
+
+Tenemos un recurso bloqueante que puede representar un API externo o una base
+de datos. El recurso se demora 5 segundos en responder cada petición.
+
+```
+/blocking_resource$ ./run.sh
+time curl localhost:8000/blocking-resource
+```
+
+Flask corre de manera síncrona. Un solo worker solo es capaz de procesar una
+petición a la vez.
+
+```
+/sync_flask$ ./run.sh 1
+time curl localhost:8001/resource
+# x2 time curl...
+```
+
+`run_clients.py` realizara n peticiones en "paralelo" con un límite de tiempo
+de 7 segundo. Cada petición respresenta un usuario/cliente. El código se
+mostrará después.
+
+```
+./run_clients.py 8001 -n 1  # pasa
+./run_clients.py 8001 -n 4  # no pasa
+```
+
+Toca incrementar el número de workers.
+
+```
+/sync_flask$ ./run.sh 5
+./run_clients.py 8001 -n 4  # pasa
+./run_clients.py 8001 -n 10  # no pasa
+```
+
+Con FastAPI no hay que especificar workers.
+
+```
+/async_fastapi$ ./run.sh
+./run_clients.py 8002 -n 1  # pasa
+./run_clients.py 8002 -n 4  # pasa
+./run_clients.py 8002 -n 10  # pasa
+```
+
+Lo malo de `asyncio` es que toca saber que operaciones son síncronas y cuales
+no.
+
+```
+# Hacer cambio en app.py
+/async_fastapi$ ./run.sh
+./run_clients.py 8002 -n 1  # pasa
+./run_clients.py 8002 -n 2  # no pasa
+```
+
+`run_clients.py` está hecho con `asyncio`.

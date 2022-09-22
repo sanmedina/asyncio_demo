@@ -75,3 +75,6 @@ Ejemplo `m06...` se demora 1 segundo.
 ```bash
 time python m06_async_multiple.py
 ```
+
+Ejemplo `m07...` para mostrar sintaxis de `async with`.
+
